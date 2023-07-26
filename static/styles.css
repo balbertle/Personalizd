@@ -1,0 +1,419 @@
+
+
+.logo {
+    font-family: Didot, "Didot LT STD", "Hoefler Text", Garamond, "Times New Roman", serif;
+    font-weight: 800;
+    color: #25760D;
+    vertical-align:baseline;
+    font-size: 40px;
+    padding-bottom: 0;
+}
+a{ text-decoration: none; 
+}
+.navbar{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-grow: 1;
+        align-items: top;
+        padding: 10px;
+        border-bottom:3px solid #134405;
+        flex-wrap: nowrap;
+}
+
+.navbar-center{ 
+    text-align: top;
+    display: flex;
+    margin-right: 30px;
+    text-transform: uppercase;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+    min-width: 280px;
+}
+
+.navbar .navbar-center a:not(:last-child){
+    border-right: 2px solid #134405;
+}
+
+.navbar-center a{ 
+    padding:10px;
+    font-size: 18px;
+    color: #25760D;
+    font-weight:400;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+    position: relative;
+    transition: font-size 0.2s;
+    
+}
+
+.navbar-center a:hover{ 
+    font-size: 21px;
+}
+.navbar-right{
+  display: flex;
+  flex-wrap: nowrap;
+}
+.navbar-right div{
+    text-align: top;
+    display: flex;
+}
+
+
+.navbar-right   a{ 
+    padding:10px;
+    font-size: 18px;
+    color: #25760D;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+    background-color: white;
+    border: 2px solid #25760D;
+    border-radius: 15px;
+    text-align: center;
+    cursor:pointer;
+    transition: background-color 0.3s,
+    box-shadow 0.3s,
+    color 0.3s;
+    
+}
+
+.navbar-right a:hover{ 
+    color: white;
+    background-color:#25760D;
+    box-shadow: 5px 5px 10px rgb(0, 0, 0, 0.35);
+
+}
+.navbar-right a:active{ 
+    opacity:0.8;
+
+}
+
+.description{
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 70px;
+    color: #25760D;
+}
+
+.description p{
+    padding-bottom: 10px;
+    margin-bottom: 40px;
+}
+
+.description2{
+    color: #25760D;
+    font-size: 30px;
+    text-align:center;
+    font-family: 'Playfair Display', serif;
+}
+.description2 p{
+    padding-bottom: 10px;
+    margin-bottom: 40px;
+}
+.description2 a{
+    background-color: #134405;
+    font-size: 22px;
+    color: white;
+    padding-right: 80px;
+    padding-left: 80px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 60px;
+    border-radius: 15px;
+    transition: opacity 0.5s,
+    box-shadow 0.5s;
+    box-shadow: 5px 5px 10px rgb(0, 0, 0, 0.15);
+}
+
+.description2 a:hover{
+    opacity: 0.9;
+    box-shadow: 5px 5px 10px rgb(0, 0, 0, 0.35);
+}
+.description2 a:active{
+    opacity: 0.7;
+    box-shadow: 5px 5px 10px rgb(0, 0, 0, 0.35);
+}
+
+.container {
+    text-align: center;
+    color: white;
+  }
+  
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Playfair Display', serif;
+  font-size: 70px;
+  color: #25760D;
+  text-align: center;
+  font-weight: 400;
+  margin-top: 100px;
+  min-width: 1000px;
+}
+.image-blurred-edge {
+    display: block;
+    margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  background-image: url('../static/V_PastLives_Still268_R.jpg');
+    width: 1800px;
+    height: 900px; 
+  opacity:0.4;
+  box-shadow: 0 10px 180px 180px white inset;
+}
+
+html, body, main {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+  
+  }
+  
+  #carousel {
+    height: 800px;
+    top: 50%;
+    transform: translateY(-50%);
+    overflow: hidden;
+  }
+  #carousel div {
+    position: absolute;
+    transition: transform 400ms, left 400ms, opacity 400ms, z-index 0s;
+    opacity: 1;
+  }
+  #carousel div img {
+    width: 400px;
+    transition: width 400ms;
+     -webkit-user-drag: none;
+     box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+     border-radius: 10px;
+  }
+  #carousel div.hideLeft {
+    left: 0%;
+    opacity: 0;
+    transform: translateY(50%) translateX(-50%);
+  }
+  #carousel div.hideLeft img {
+    width: 200px;
+  }
+  #carousel div.hideRight {
+    left: 100%;
+    opacity: 0;
+    transform: translateY(50%) translateX(-50%);
+  }
+  #carousel div.hideRight img {
+    width: 200px;
+  }
+  #carousel div.prev {
+    z-index: 5;
+    left: 30%;
+    transform: translateY(50px) translateX(-50%);
+  }
+  #carousel img:hover {
+    cursor: pointer;
+  }
+  #carousel div.prev img {
+    width: 300px;
+  }
+  #carousel div.prevLeftSecond {
+    z-index: 4;
+    left: 15%;
+    transform: translateY(50%) translateX(-50%);
+    opacity: 0.7;
+  }
+  #carousel div.prevLeftSecond img {
+    width: 200px;
+  }
+  #carousel div.selected {
+    z-index: 10;
+    left: 50%;
+    transform: translateY(0px) translateX(-50%);
+  }
+  #carousel div.next {
+    z-index: 5;
+    left: 70%;
+    transform: translateY(50px) translateX(-50%);
+  }
+  #carousel div.next img {
+    width: 300px;
+  }
+  #carousel div.nextRightSecond {
+    z-index: 4;
+    left: 85%;
+    transform: translateY(50%) translateX(-50%);
+    opacity: 0.7;
+  }
+  #carousel div.nextRightSecond img {
+    width: 200px;
+  }
+
+  
+  /*previous or next buttons css*/
+  
+  .buttons {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 100px;
+  }
+  
+  .button-82-pushable {
+    position: relative;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    outline-offset: 4px;
+    transition: filter 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  
+  .button-82-shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: hsl(0deg 0% 0% / 0.25);
+    will-change: transform;
+    transform: translateY(2px);
+    transition:
+      transform
+      600ms
+      cubic-bezier(.3, .7, .4, 1);
+  }
+  
+  .button-82-edge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: linear-gradient(
+      to left,
+      hsl(340deg 100% 16%) 0%,
+      hsl(340deg 100% 32%) 8%,
+      hsl(340deg 100% 32%) 92%,
+      hsl(340deg 100% 16%) 100%
+    );
+  }
+  
+  .button-82-front {
+    display: block;
+    position: relative;
+    padding: 12px 27px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    color: white;
+    background: hsl(345deg 100% 47%);
+    will-change: transform;
+    transform: translateY(-4px);
+    transition:
+      transform
+      600ms
+      cubic-bezier(.3, .7, .4, 1);
+  }
+  
+  @media (min-width: 768px) {
+    .button-82-front {
+      font-size: 1.25rem;
+      padding: 12px 42px;
+    }
+  }
+  
+  .button-82-pushable:hover {
+    filter: brightness(110%);
+    -webkit-filter: brightness(110%);
+  }
+  
+  .button-82-pushable:hover .button-82-front {
+    transform: translateY(-6px);
+    transition:
+      transform
+      250ms
+      cubic-bezier(.3, .7, .4, 1.5);
+  }
+  
+  .button-82-pushable:active .button-82-front {
+    transform: translateY(-2px);
+    transition: transform 34ms;
+  }
+  
+  .button-82-pushable:hover .button-82-shadow {
+    transform: translateY(4px);
+    transition:
+      transform
+      250ms
+      cubic-bezier(.3, .7, .4, 1.5);
+  }
+  
+  .button-82-pushable:active .button-82-shadow {
+    transform: translateY(1px);
+    transition: transform 34ms;
+  }
+  
+  .button-82-pushable:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  .bentobox1{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .bentobox1 div{
+    height: 400px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px black;
+  }
+  .left1{
+    background-color: #134405;
+    width: 400px;
+    min-width: 400px;
+  }
+
+  .right1{
+    background-color:#25760D;
+    width: 800px;
+    margin-left: 10px;
+    min-width: 800px;
+  }
+  .bentobox2{
+    height: 400px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+  }
+  .bentobox2 div{
+    margin-bottom: 15px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px black;
+    min-width: 500px;
+  }
+  .left2{
+    background-color:#25760D;
+    width: 700px;
+  }
+
+  .right2{
+    background-color:#134405;
+    width: 500px;
+    margin-left: 10px;
+
+  }
+
+  .bentotext{
+    color: white;
+    text-align: center;
+    font-family: 'Poppins', sans-serif; 
+  }

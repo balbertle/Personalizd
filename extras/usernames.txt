@@ -1,0 +1,13 @@
+-- database: c:\Users\alber\OneDrive\Desktop\Personalizd\personalizd.db
+
+-- Use the ▷ button in the top right corner to run the entire file.
+
+    CREATE TABLE users (
+    id int,
+    LastName varchar(255),
+    FirstName varchar(255),
+    Username varchar(255),
+    PRIMARY KEY (id)
+);
+
+

@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Personalizd</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="../static/faded.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@500&display=swap" rel="stylesheet">
+
+    </head>
+  <body>
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="/" ><span class="logo align-top">Personalizd</span></a>
+        </div>   
+        <div class="navbar-center">
+            <a href="/movies" ><span >Movies</span></a> 
+            <a href="/tv" ><span>TV Shows</span></a> 
+            <a href="/lists"><span>Lists</span></a> 
+        </div>
+        <div class="navbar-right">
+          <a href="/login" style="margin-right:10px">Login </a>
+          <a href="/register">Sign Up</a>
+        </div>
+    </div>
+      <div class="image-blurred-edge" ></div>
+      <div class="centered"><p></p>
+        <p>TRACK YOUR HOBBIES</p>
+        <p>RECORD YOUR FAVORITES</p>
+        <p>DISCOVER YOUR FRIENDS</p>
+        <div class="description2">
+          <p>Personalized to your taste.</p>
+          <a href="/register"> Join for free!</a>
+          <p></p>
+          <p></p>
+        </div><p>Trending</p></div>
+        <div id="carousel" class="carousel">
+
+          <div id='item_1' class="hideLeft">
+           <img src="{{ poster_url1 }}">
+         </div>
+   
+         <div id='item_2' class="prevLeftSecond">
+           <img src="{{ poster_url2 }}">
+         </div>
+   
+         <div id='item_3' class="prev">
+           <img src="{{ poster_url3 }}">
+         </div>
+   
+         <div id='item_4' class="selected">
+           <img src="{{ poster_url4 }}">
+         </div>
+   
+         <div id='item_5' class="next">
+           <img src="{{ poster_url5 }}">
+         </div>
+   
+         <div id='item_6' class="nextRightSecond">
+           <img src="{{ poster_url6 }}">
+         </div>
+   
+         <div id='item_7' class="hideRight">
+           <img src="{{ poster_url7 }}">
+         </div>
+   
+         <div id='item_8' class="hideRight">
+           <img src="{{ poster_url8 }}">
+         </div>
+       </div>
+       
+   
+       <div class="buttons">
+         <button class="button-82-pushable" role="button" id="prev"></button>
+         <button class="button-82-pushable" role="button" id="next"></button>
+       </div>
+       
+       <script>const $ = str => document.querySelector(str);
+        const $$ = str => document.querySelectorAll(str);
+        
+        (function() {
+            if (!window.app) {
+                window.app = {};
+            }
+            app.carousel = {
+                removeClass: function(el, classname='') {
+                    if (el) {
+                        if (classname === '') {
+                            el.className = '';
+                        } else {
+                            el.classList.remove(classname);
+                        }
+                        return el;
+                    }
+                    return;
+                },
+                reorder: function() {
+                    let childcnt = $("#carousel").children.length;
+                    let childs = $("#carousel").children;
+        
+                    for (let j=0; j< childcnt; j++) {
+                        childs[j].dataset.pos = j;
+                    }
+                },
+                move: function(el) {
+                    let selected = el;
+        
+                    if (typeof el === "string") {
+                    console.log(`got string: ${el}`);
+                        selected = (el == "next") ? $(".selected").nextElementSibling : $(".selected").previousElementSibling;
+                        console.dir(selected);
+                    }
+        
+                    let curpos = parseInt(app.selected.dataset.pos);
+                    let tgtpos = parseInt(selected.dataset.pos);
+        
+                    let cnt = curpos - tgtpos;
+                    let dir = (cnt < 0) ? -1 : 1;
+                    let shift = Math.abs(cnt);
+        
+                    for (let i=0; i<shift; i++) {
+                        let el = (dir == -1) ? $("#carousel").firstElementChild : $("#carousel").lastElementChild;
+        
+                        if (dir == -1) {
+                            el.dataset.pos = $("#carousel").children.length;
+                            $('#carousel').append(el);
+                        } else {
+                            el.dataset.pos = 0;
+                            $('#carousel').prepend(el);
+                        }
+        
+                        app.carousel.reorder();
+                    }
+        
+        
+                    app.selected = selected;
+                    let next = selected.nextElementSibling;// ? selected.nextElementSibling : selected.parentElement.firstElementChild;
+                    var prev = selected.previousElementSibling; // ? selected.previousElementSibling : selected.parentElement.lastElementChild;
+                    var prevSecond = prev ? prev.previousElementSibling : selected.parentElement.lastElementChild;
+                    var nextSecond = next ? next.nextElementSibling : selected.parentElement.firstElementChild;
+        
+                    selected.className = '';
+                    selected.classList.add("selected");
+        
+                    app.carousel.removeClass(prev).classList.add('prev');
+                    app.carousel.removeClass(next).classList.add('next');
+        
+                    app.carousel.removeClass(nextSecond).classList.add("nextRightSecond");
+                    app.carousel.removeClass(prevSecond).classList.add("prevLeftSecond");
+        
+                    app.carousel.nextAll(nextSecond).forEach(item=>{ item.className = ''; item.classList.add('hideRight') });
+                    app.carousel.prevAll(prevSecond).forEach(item=>{ item.className = ''; item.classList.add('hideLeft') });
+        
+                },
+                nextAll: function(el) {
+                    let els = [];
+        
+                    if (el) {
+                        while (el = el.nextElementSibling) { els.push(el); }
+                    }
+        
+                    return els;
+        
+                },
+                prevAll: function(el) {
+                    let els = [];
+        
+                    if (el) {
+                        while (el = el.previousElementSibling) { els.push(el); }
+                    }
+        
+        
+                    return els;
+                },
+                keypress: function(e) {
+                    switch (e.which) {
+                        case 37: // left
+                            app.carousel.move('prev');
+                            break;
+        
+                        case 39: // right
+                            app.carousel.move('next');
+                            break;
+        
+                        default:
+                            return;
+                    }
+                    e.preventDefault();
+                    return false;
+                },
+                select: function(e) {
+                console.log(`select: ${e}`);
+                    let tgt = e.target;
+                    while (!tgt.parentElement.classList.contains('carousel')) {
+                        tgt = tgt.parentElement;
+                    }
+        
+                    app.carousel.move(tgt);
+        
+                },
+                previous: function(e) {
+                    app.carousel.move('prev');
+                },
+                next: function(e) {
+                    app.carousel.move('next');
+                },
+                doDown: function(e) {
+                console.log(`down: ${e.x}`);
+                    app.carousel.state.downX = e.x;
+                },
+                doUp: function(e) {
+                console.log(`up: ${e.x}`);
+                    let direction = 0,
+                        velocity = 0;
+        
+                    if (app.carousel.state.downX) {
+                        direction = (app.carousel.state.downX > e.x) ? -1 : 1;
+                        velocity = app.carousel.state.downX - e.x;
+        
+                        if (Math.abs(app.carousel.state.downX - e.x) < 10) {
+                            app.carousel.select(e);
+                            return false;
+                        }
+                        if (direction === -1) {
+                            app.carousel.move('next');
+                        } else {
+                            app.carousel.move('prev');
+                        }
+                        app.carousel.state.downX = 0;
+                    }
+                },
+                init: function() {
+                    document.addEventListener("keydown", app.carousel.keypress);
+                   // $('#carousel').addEventListener("click", app.carousel.select, true);
+                    $("#carousel").addEventListener("mousedown", app.carousel.doDown);
+                    $("#carousel").addEventListener("touchstart", app.carousel.doDown);
+                    $("#carousel").addEventListener("mouseup", app.carousel.doUp);
+                    $("#carousel").addEventListener("touchend", app.carousel.doup);
+        
+                    app.carousel.reorder();
+                    $('#prev').addEventListener("click", app.carousel.previous);
+                    $('#next').addEventListener("click", app.carousel.next);
+                    app.selected = $(".selected");
+        
+                },
+                state: {}
+        
+            }
+            app.carousel.init();
+        })();</script>
+        <div class=bentobox1>
+            <div class="left1" >
+                <p class = "bentotext" style ="font-size: 28px; margin-top: 10px;">
+                    DISCOVER YOUR FAVORITES
+                </p>
+                <p class = "bentotext" style ="font-size: 12px; margin-left: 10px; margin-right: 10px;">
+                    Browse lists and the database which include thousands of genres, themes, and ideas.
+                </p>
+                <p class = "bentotext" style ="font-size: 50px; margin-left: 10px; margin-right: 10px;">
+                    824,120 <span style = "font-size: 15px">Movies</span>
+                </p>
+                <p class = "bentotext" style ="font-size: 50px; margin-left: 10px; margin-right: 10px;">
+                    152,113 <span style = "font-size: 15px">TV Shows</span>
+                </p>
+                <p class = "bentotext" style ="font-size: 12px; margin-left: 10px; margin-right: 10px;">
+                    Find the movie is perfect for you or a random movie to expand your taste. 
+                </p>
+            </div>
+            <div class="right1" >
+                <p class = "bentotext" style ="font-size: 45px; margin-top: 10px;">
+                    TRACK THE MEDIA YOU WATCH
+                </p>
+                <p class = "bentotext" style ="font-size: 15px; margin-left: 10px; margin-right: 10px;">
+                    Log movies and TV shows as you watch them.
+                </p>
+                <p class = "bentotext" style ="font-size: 15px; margin-left: 10px; margin-right: 10px;">
+                    Keep track of the day you watched your favorite movie.
+                </p>
+                <p class = "bentotext" style ="font-size: 45px; margin-top: 10px;">
+                    TRACK THE MEDIA YOU WATCH
+                </p>
+                <p class = "bentotext" style ="font-size: 15px; margin-left: 10px; margin-right: 10px;">
+                    Make lists of your favorites or what you plan on watching
+                </p>
+            </div>
+        </div>
+        <div class="bentobox2">
+            <div class="left2">
+                <p class="bentotext" style="font-size: 50px; margin-top: 10px;">
+                    SEE WHAT PEOPLE THINK
+                </p>
+                <p class = "bentotext" style ="font-size: 15px; margin-left: 10px; margin-right: 10px;">
+                    Read the latest reviews and opinions of the hottest new movie
+                </p>
+                <p class = "bentotext" style ="font-size: 15px; margin-left: 10px; margin-right: 10px;">
+                    Share your own opinions for friends, family, and the world to read11
+                </p>
+            </div>
+            <div class="right2">
+                <p class="bentotext" style="font-size: 30px; margin-top: 10px;">
+                    MEET PEOPLE WITH YOUR TASTE
+                </p>
+                <div class="image-container" style="display: flex; justify-content: center; margin: 10px !important; padding: 0 !important; border-radius: 0px !important; box-shadow: 0 0 0px black !important;">
+                    <img style="width: 200px;" src="../static/PngItem_3560316.png"> 
+                </div>
+                <p class="bentotext" style="font-size: 15px; margin-left: 10px; margin-right: 10px;">
+                    Join a community of users who share the same love for the movies and shows you enjoy.
+                </p>
+            </div>
+        </div>
+  </body>
+</html>
+
+

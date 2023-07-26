@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ movie_details['title'] }}
+{% endblock %}
+
+{% block main %}
+    <body>
+        <div class="feed">
+            <img src="{{ backdrop }}" class ="backdrop" alt="{{ movie_details['title'] }} Backdrop">
+            <div class="poster_title">
+                <img src="https://image.tmdb.org/t/p/w500{{ movie_details['poster_path'] }}"  alt="{{ movie_details['title'] }} Poster">
+                <h1 class = "title">{{ movie_details['title'] }}</h1>
+            </div>
+            <div class = "details">
+                <p class="tagline">{{ movie_details['tagline'] }}</p> 
+                <p>{{ movie_details['overview'] }}</p> 
+            </div>
+        </div>
+    </body>
+{% endblock %}
