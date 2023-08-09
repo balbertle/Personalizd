@@ -1,5 +1,7 @@
 import requests
 import json
+import sqlite3
+
 
 def get_trending_movie_ids():
     url = "https://api.themoviedb.org/3/trending/all/day?language=en-US"
@@ -99,3 +101,22 @@ def get_movie_backdrop(movie_id):
             return backdrop_url
 
     return None
+
+def get_ratings_by_user_and_movie(user_id, movie_id):
+    conn = sqlite3.connect('ratings.db')
+    cursor = conn.cursor()
+
+    # Replace 'your_table' with the name of your table and 'your_column' with the column you want to retrieve
+    query = "SELECT rating FROM movie_ratings WHERE user_id = ? AND movie_id = ?"
+    cursor.execute(query, (user_id, movie_id))
+
+    # Fetch all the data from the column
+    column_data = cursor.fetchall()
+
+    # Close the connection
+    conn.close()
+
+    # Extract the values from the fetched data and store them in a Python array
+    ratings = [row[0] for row in column_data]
+    ratings = ratings[-1:]
+    return ratings

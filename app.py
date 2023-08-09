@@ -6,7 +6,7 @@ from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import getmovieposter, get_trending_movie_ids, get_movie_details, get_movie_id_by_name, get_movie_backdrop
+from helpers import getmovieposter, get_trending_movie_ids, get_movie_details, get_movie_id_by_name, get_movie_backdrop, get_ratings_by_user_and_movie
 
 
 app = Flask(__name__, static_url_path='/static', static_folder='static')
@@ -89,9 +89,9 @@ def register():
         rows = db.execute("SELECT * FROM users WHERE username = ?", username)
         if len(rows) == 1:
             return render_template("apology.html")
-        hash = generate_password_hash(password);
+        hash = generate_password_hash(password)
 
-        db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, hash)
+        db.execute("INSERT INTO users ( username, hash) VALUES(?, ?, ?)", username, hash)
         rows = db.execute("SELECT * FROM users WHERE username = ?", username)
         session["user_id"] = rows[0]["id"]
         return redirect("/")
@@ -109,7 +109,11 @@ def index():
     if "user_id" not in session:
         return render_template("index.html", poster_url1 = poster_links[0], poster_url2 = poster_links[1], poster_url3 = poster_links[2], poster_url4 = poster_links[3], poster_url5 = poster_links[4], poster_url6 = poster_links[5], poster_url7 = poster_links[6], poster_url8 = poster_links[7])
     user_id = session["user_id"]
-    return render_template("layout.html") 
+    result = db.execute("SELECT username FROM users WHERE id = ?", user_id)
+    for row in result:
+        username = row['username']
+        break
+    return render_template("layout.html", username = username) 
 
 @app.route("/logout")
 def logout():
@@ -132,24 +136,30 @@ def movies():
 @app.route('/movie/<movie_name>', methods=["GET", "POST"])
 def movie_page(movie_name):
     if request.method == "GET":
+        user_id = session["user_id"]  
         movie_id = get_movie_id_by_name(movie_name)
         if movie_id:
             movie_details = get_movie_details(movie_id)
             backdrop = get_movie_backdrop(movie_id)
-            return render_template('movie.html', movie_details=movie_details, backdrop = backdrop)
+            
+            user_ratings = get_ratings_by_user_and_movie(user_id, movie_id)
+            
+            return render_template('movie.html', movie_details=movie_details, backdrop=backdrop, user_ratings=user_ratings)
         else:
             return render_template('error_page.html')
     if request.method == "POST":
         selected_rating = request.form.get('rating')
-    
+        movie_id = get_movie_id_by_name(movie_name)
+        user_id = session["user_id"] 
+        array = get_ratings_by_user_and_movie(user_id, movie_id)
+        if len(array) > 0:
+            if float(selected_rating) == array[0]:
+                return 
         if selected_rating:
-            # Connect to the movie ratings database and insert the rating
             conn = sqlite3.connect('ratings.db')
             cursor = conn.cursor()
 
-            movie_id = 123  # Replace with the actual movie ID
-            user_id = 456   # Replace with the actual user ID
-
+  
             cursor.execute('''
                 INSERT INTO movie_ratings (movie_id, user_id, rating)
                 VALUES (?, ?, ?)
@@ -163,3 +173,8 @@ def movie_page(movie_name):
             return "Please select a rating before submitting."
 if __name__ == '__main__':
     app.run(debug=True)
+
+@app.route("/<username>", methods=["GET", "POST"])
+def profile_page(username):
+    return render_template("profile.html", username = username)
+
